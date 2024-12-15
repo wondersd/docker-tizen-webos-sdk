@@ -57,15 +57,23 @@ USER root
 RUN mv ${HOME}/tizen-studio /tizen-studio \
   && ln -s /tizen-studio ${HOME}/tizen-studio
 
-# Copy and extract webOS CLI
-ARG WEBOS_CLI_VERSION=1.12.4-j27
-ENV LG_WEBOS_TV_SDK_HOME=/webOS_TV_SDK
-ENV WEBOS_CLI_TV=${LG_WEBOS_TV_SDK_HOME}/CLI/bin
-COPY vendor/webOS_TV_CLI_linux_${WEBOS_CLI_VERSION}.tgz ./webos_cli.tgz
-RUN mkdir -p ${LG_WEBOS_TV_SDK_HOME}
-RUN tar -xvzf webos_cli.tgz -C ${LG_WEBOS_TV_SDK_HOME} \
-  && chmod -R +x ${WEBOS_CLI_TV} \
-  && rm webos_cli.tgz
+# Add tizen cli to PATH
+ENV PATH $PATH:/tizen-studio/tools/:/tizen-studio/tools/ide/bin/:/tizen-studio/package-manager/
 
-# Add tizen/webos cli to PATH
-ENV PATH $PATH:/tizen-studio/tools/:/tizen-studio/tools/ide/bin/:/tizen-studio/package-manager/:${WEBOS_CLI_TV}
+
+
+# webOS for LG, dont care
+# Copy and extract webOS CLI
+# ARG WEBOS_CLI_VERSION=1.12.4-j27
+# ENV LG_WEBOS_TV_SDK_HOME=/webOS_TV_SDK
+# ENV WEBOS_CLI_TV=${LG_WEBOS_TV_SDK_HOME}/CLI/bin
+# COPY vendor/webOS_TV_CLI_linux_${WEBOS_CLI_VERSION}.tgz ./webos_cli.tgz
+# RUN mkdir -p ${LG_WEBOS_TV_SDK_HOME}
+# RUN tar -xvzf webos_cli.tgz -C ${LG_WEBOS_TV_SDK_HOME} \
+#   && chmod -R +x ${WEBOS_CLI_TV} \
+#   && rm webos_cli.tgz
+
+# Add webos cli to PATH
+# ENV PATH $PATH:${WEBOS_CLI_TV}
+
+# https://github.com/kamildzi/Tizen4Docker
